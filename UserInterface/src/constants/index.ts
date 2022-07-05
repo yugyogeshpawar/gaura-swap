@@ -4,8 +4,8 @@ import {
   // fortmatic,
   injected,
   // portis,
-  walletconnect,
-  walletlink,
+  //walletconnect,
+  //walletlink,
 } from '../connectors';
 
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
@@ -127,6 +127,8 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     href: null,
     color: '#E8831D',
   },
+
+  /*
   WALLET_CONNECT: {
     connector: walletconnect,
     name: 'WalletConnect',
@@ -144,6 +146,8 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     href: null,
     color: '#315CF5',
   },
+*/
+
   // COINBASE_LINK: {
   //   name: 'Open in Coinbase Wallet',
   //   iconName: 'coinbaseWalletIcon.svg',
