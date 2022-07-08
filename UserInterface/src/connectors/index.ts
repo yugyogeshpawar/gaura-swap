@@ -26,7 +26,7 @@ export function getNetworkLibrary(): Web3Provider {
 }
 
 export const injected = new InjectedConnector({
-  supportedChainIds: [1, 4, 33982],
+  supportedChainIds: [1, 33982],
 });
 
 // mainnet only
