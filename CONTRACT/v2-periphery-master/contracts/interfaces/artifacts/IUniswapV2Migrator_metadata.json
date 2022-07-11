@@ -48,7 +48,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/interfaces/IUniswapV2Migrator.sol": "IUniswapV2Migrator"
+			"v2-periphery-master/contracts/interfaces/IUniswapV2Migrator.sol": "IUniswapV2Migrator"
 		},
 		"evmVersion": "istanbul",
 		"libraries": {},
@@ -62,11 +62,11 @@
 		"remappings": []
 	},
 	"sources": {
-		"contracts/interfaces/IUniswapV2Migrator.sol": {
-			"keccak256": "0xa83ac0f597c04134b3ea423fd55d3077e952197c1991e23c4e304bfb35a90124",
+		"v2-periphery-master/contracts/interfaces/IUniswapV2Migrator.sol": {
+			"keccak256": "0x3775c62217dd61fc45acdc18db90a31ff6d61802d13eb6e8a203cf706cb37746",
 			"urls": [
-				"bzz-raw://ec1a3358caaa80af192bf4a8913041b037736412d7d6d5e894d58dadfab3a1da",
-				"dweb:/ipfs/QmbYVrgxQZVevcBgTcPUFutk5mpj61BAdmTPMXGiBt1vA8"
+				"bzz-raw://d2408b73aea9e21864a83266871d7e60f4a7dac1647cac371d0daa8571485c0a",
+				"dweb:/ipfs/QmYGowYpWnqx2m7nF3B8GgFG1Xa3Euxssbakwzrd9LeFTC"
 			]
 		}
 	},

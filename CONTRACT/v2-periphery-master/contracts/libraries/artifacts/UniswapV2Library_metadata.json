@@ -36,17 +36,17 @@
 			]
 		},
 		"v2-periphery-master/contracts/libraries/SafeMath.sol": {
-			"keccak256": "0xb3d2266dd8836a3aa0cfc8ebaf846180c7c0e0aafa87f6d780e33f3aa800efb3",
+			"keccak256": "0xded2f1823779fd511638cc079b2ff552b51dd6154091b240488d9cbcedfcebac",
 			"urls": [
-				"bzz-raw://d91a961f072ba7eab75807725a2e442105f5df5f75be99a3dcf4f6dc6e8597f2",
-				"dweb:/ipfs/QmXwSNpcfMqakqYTZ3JFd3EN1ejsLjjTtUKgFNQrLG7Qko"
+				"bzz-raw://a186f7cfe1a13f932c69057f40a58c8e34e78c7afc670cb742a22cb6223a7dd7",
+				"dweb:/ipfs/QmTcfdX5KoJTEbgp3nuP1vNwcyjef1HH9LALzRzsAMmSAN"
 			]
 		},
 		"v2-periphery-master/contracts/libraries/UniswapV2Library.sol": {
-			"keccak256": "0x6aa33237b075b3708bad304222ba6c0046c1c0b56a2bbc06e911f38f2f628914",
+			"keccak256": "0x5d6fb6f65256da23497d4b10161fc9569d0c8f072c7cc357b204a77cd5622b3c",
 			"urls": [
-				"bzz-raw://7f272ebba41027c5a158eff288ebc9a993c31a6e162e64a3905c14ce4cf95784",
-				"dweb:/ipfs/QmXLPuc7xLkJTNN7pbMi1vxfNXDymzJfzP17BogCPr6T3P"
+				"bzz-raw://6b74385767283c87a12efa409550a8fe3b2a3484e59b985567893d7cbc3d60fc",
+				"dweb:/ipfs/QmZggqWbYNr9J6o7QFMtTXF5dQxcqc3CWRDcgJTwpx6NZc"
 			]
 		}
 	},

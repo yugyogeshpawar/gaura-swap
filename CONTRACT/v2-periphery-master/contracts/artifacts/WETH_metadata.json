@@ -299,7 +299,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"v2-periphery-master/contracts/weth.sol": "WETH"
+			"v2-periphery-master/contracts/WETH.sol": "WETH"
 		},
 		"evmVersion": "istanbul",
 		"libraries": {},
@@ -313,11 +313,11 @@
 		"remappings": []
 	},
 	"sources": {
-		"v2-periphery-master/contracts/weth.sol": {
-			"keccak256": "0xe0eb01bd93a2c342fcd80b97c4dcb5587d76c04995b3c6f1118b44f07ca4d87b",
+		"v2-periphery-master/contracts/WETH.sol": {
+			"keccak256": "0x5ca2db020f7b1fb5b950ba55dd41a9cc7e3cbd4b69c496f69973fb4e6fe5a78a",
 			"urls": [
-				"bzz-raw://c48c638a18b701b9bf48747fb91b362f386fd94d3539957ad6ffd4efc5f96a26",
-				"dweb:/ipfs/QmXQR95bPuHPKYPBHdfoYtpnGU3vSLk7uXLYBekPhWR9vL"
+				"bzz-raw://22ca7d4634b39b4bf37ce919b58a4eb83b4bccf7906f6c4d3fb6c494f2f34a71",
+				"dweb:/ipfs/QmQgpyGitssrpgwfMPaxiNtH9zECtVt7PKUNq2BhYAJDm2"
 			]
 		}
 	},

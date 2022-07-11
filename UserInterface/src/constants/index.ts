@@ -9,11 +9,11 @@ import {
 } from '../connectors';
 
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
-export const FACTORY_ADDRESS = '0x399aD46cC12DD3b11eC7cAc6b544AaC9e3b90FE3';
-export const ROUTER_ADDRESS = '0xAC0BF7672920b8af57E11b525697a44e814624c3';
+export const FACTORY_ADDRESS = '0xe9da62cf434b492cf948f8633c6c9e03d5195d55';
+export const ROUTER_ADDRESS = '0x8c70f865ba55734a0780e6476ea447a77213f6d6';
 
-export const LP_TOKEN_NAME = 'Gaura-LP';
-export const LP_TOKEN_SYMBOL = 'GAURA-LP';
+export const LP_TOKEN_NAME = 'Gaura-LP2';
+export const LP_TOKEN_SYMBOL = 'GAURA-2';
 
 // a list of tokens by chain
 type ChainTokenList = {
@@ -70,12 +70,12 @@ export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: To
 };
 
 // used for display in the default list when adding liquidity
-/*
+
 export const SUGGESTED_BASES: ChainTokenList = {
   ...WETH_ONLY,
   [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDC, USDT, WBTC],
 };
-*/
+
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   ...WETH_ONLY,

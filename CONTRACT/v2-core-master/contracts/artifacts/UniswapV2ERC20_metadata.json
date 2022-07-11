@@ -369,24 +369,24 @@
 	},
 	"sources": {
 		"v2-core-master/contracts/UniswapV2ERC20.sol": {
-			"keccak256": "0xb988f3a5e7cc0360d2c516c4027d6b1c4beca4d28466a42c88ec17bda047c21f",
+			"keccak256": "0x1e8fa465ef75d60f72dcced88310cf1a2fa86bdb75775bf1e32e7c6006fef9ad",
 			"urls": [
-				"bzz-raw://ea4c8fdfa25e332f28839544be2d465d63aecdaa4c9a9cdfcedab9332e318ec2",
-				"dweb:/ipfs/QmVrdgtCJnLzFspxBJqMmnvwpLA4MvK2h2tvRwRq1zY9En"
+				"bzz-raw://a1577ac8a48e8bd04ea5210e21f1a7568936a50be791b2d429b264916a1ea580",
+				"dweb:/ipfs/QmNkMzwsWU9tfyuLxoRj4Pgmz9WrKTCZsbHBmiVWpyqNdm"
 			]
 		},
 		"v2-core-master/contracts/interfaces/IUniswapV2ERC20.sol": {
-			"keccak256": "0x9e433765e9ef7b4ff5e406b260b222c47c2aa27d36df756db708064fcb239ae7",
+			"keccak256": "0xda3ed72159ac8321b9ee8b67893e0d42ac6f8180b8e1112e8724a9093a409541",
 			"urls": [
-				"bzz-raw://5b67c24a5e1652b51ad2f37adad2905519f0e05e7c8b2b4d8b3e00b429bb9213",
-				"dweb:/ipfs/QmarJq43GabAGGSqtMUb87ACYQt73mSFbXKyFAPDXpbFNM"
+				"bzz-raw://db4c5c04309ae947a14a464f22f37b76225749248eff9a6a9e184f314531533e",
+				"dweb:/ipfs/QmaNHx4uQ79xhQ3SgCK4NodQR11oc4DRtkPGLqGSpB7jei"
 			]
 		},
 		"v2-core-master/contracts/libraries/SafeMath.sol": {
-			"keccak256": "0x9ea215227e02c4462247124b424db9dc7364f7d5ac0961debf46c16d5861ad21",
+			"keccak256": "0xfe46a92953b0ebf82fc2a9f21f995beb60e845aaa7223bfb37711a3b41d6dc11",
 			"urls": [
-				"bzz-raw://1c02a26140f0789d05f820916aaebb2981ce714b67022f0bb7c635c91454f490",
-				"dweb:/ipfs/QmR5BDEdyncBMss8vRgzK6jsGrBRkk4wqgNNHNmzi36k11"
+				"bzz-raw://06272423f21f7b375d85d3d4c0cb280a278b1f7f312af2bf002278e16bf48432",
+				"dweb:/ipfs/QmXGGm8wvt8pZu2ob1HFk8qLTRATasvomjkaYBvcH3qU57"
 			]
 		}
 	},
