@@ -143,6 +143,22 @@ export default function Pool() {
                 </TYPE.body>
               </EmptyProposals>
             )}
+            <div>
+              <TitleRow>
+                <HideSmall>
+                  <TYPE.mediumHeader style={{ justifySelf: 'flex-start' }}>
+                    Didn't Find Your Pool
+                  </TYPE.mediumHeader>
+                </HideSmall>
+                <ButtonRow>
+                  <ResponsiveButtonPrimary id="import-pool-link" as={Link} padding="6px 10px" to="/find">
+                    <Text fontWeight={500} fontSize={16}>
+                      Import Custom Pool
+                    </Text>
+                  </ResponsiveButtonPrimary>
+                </ButtonRow>
+              </TitleRow>
+            </div>
           </AutoColumn>
         </AutoColumn>
       </PageWrapper>
