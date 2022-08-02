@@ -289,7 +289,7 @@ export default function WalletModal({
           <HeaderRow>{error instanceof UnsupportedChainIdError ? 'Wrong Network' : 'Error connecting'}</HeaderRow>
           <ContentWrapper>
             {error instanceof UnsupportedChainIdError ? (
-              <h5>Please connect to the appropriate GAURA network.</h5>
+              <h5>Please connect to the appropriate Cloud network.</h5>
             ) : (
               'Error connecting. Try refreshing the page.'
             )}
@@ -342,7 +342,7 @@ export default function WalletModal({
           )}
           {walletView !== WALLET_VIEWS.PENDING && (
             <Blurb>
-              <span>New to Gaura? &nbsp;</span>{' '}
+              <span>New to Cloud Swap? &nbsp;</span>{' '}
               <ExternalLink href="https://gaura.live/">Learn more about wallets</ExternalLink>
             </Blurb>
           )}

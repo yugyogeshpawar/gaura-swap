@@ -245,7 +245,7 @@ const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.ROPSTEN]: 'Ropsten',
   [ChainId.GÖRLI]: 'Goerli',
   [ChainId.KOVAN]: 'Kovan',
-  [ChainId.GAURA]: 'Gaura',
+  [ChainId.GAURA]: 'Cloud',
 };
 
 export default function Header() {
@@ -259,7 +259,7 @@ export default function Header() {
       <HeaderRow>
         <Title href=".">
           <Icon>
-            <img width={'24px'} src={darkMode ? LogoDark : Logo} alt="logo" />
+            <img width={'48px'} src={darkMode ? LogoDark : Logo} alt="logo" />
           </Icon>
         </Title>
       </HeaderRow>
@@ -293,7 +293,7 @@ export default function Header() {
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
             {account && userEthBalance ? (
               <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
-                {userEthBalance?.toSignificant(4)} TGAURA
+                {userEthBalance?.toSignificant(4)} TCLOUD
               </BalanceText>
             ) : null}
             <Web3Status />

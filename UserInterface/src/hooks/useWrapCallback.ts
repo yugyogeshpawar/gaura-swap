@@ -44,13 +44,13 @@ export default function useWrapCallback(
             ? async () => {
                 try {
                   const txReceipt = await wethContract.deposit({ value: `0x${inputAmount.raw.toString(16)}` });
-                  addTransaction(txReceipt, { summary: `Wrap ${inputAmount.toSignificant(6)} TGAURA to WTGAURA` });
+                  addTransaction(txReceipt, { summary: `Wrap ${inputAmount.toSignificant(6)} TCLOUD to WTCLOUD` });
                 } catch (error) {
                   console.error('Could not deposit', error);
                 }
               }
             : undefined,
-        inputError: sufficientBalance ? undefined : 'Insufficient GAURA balance',
+        inputError: sufficientBalance ? undefined : 'Insufficient CLOUD balance',
       };
     } else if (currencyEquals(WETH[chainId], inputCurrency) && outputCurrency === ETHER) {
       return {
@@ -60,13 +60,13 @@ export default function useWrapCallback(
             ? async () => {
                 try {
                   const txReceipt = await wethContract.withdraw(`0x${inputAmount.raw.toString(16)}`);
-                  addTransaction(txReceipt, { summary: `Unwrap ${inputAmount.toSignificant(6)} WTGAURA to TGAURA` });
+                  addTransaction(txReceipt, { summary: `Unwrap ${inputAmount.toSignificant(6)} WTCLOUD to TCLOUD` });
                 } catch (error) {
                   console.error('Could not withdraw', error);
                 }
               }
             : undefined,
-        inputError: sufficientBalance ? undefined : 'Insufficient WTGAURA balance',
+        inputError: sufficientBalance ? undefined : 'Insufficient WTCLOUD balance',
       };
     } else {
       return NOT_APPLICABLE;
