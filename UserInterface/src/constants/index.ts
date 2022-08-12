@@ -9,11 +9,11 @@ import {
 } from '../connectors';
 
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
-export const FACTORY_ADDRESS = '0xe9da62cf434b492cf948f8633c6c9e03d5195d55';
-export const ROUTER_ADDRESS = '0x8c70f865ba55734a0780e6476ea447a77213f6d6';
+export const FACTORY_ADDRESS = '0xe7f7067c9ecab27c5f7f13e02b13ed50931f6d0f';
+export const ROUTER_ADDRESS = '0x3221ce4ade9a9564b34992a6d9dd35e38d3884c9';
 
-export const LP_TOKEN_NAME = 'Gaura-LP2';
-export const LP_TOKEN_SYMBOL = 'GAURA-2';
+export const LP_TOKEN_NAME = 'XCloud';
+export const LP_TOKEN_SYMBOL = 'XCD';
 
 // a list of tokens by chain
 type ChainTokenList = {
@@ -33,6 +33,7 @@ export const COMP = new Token(ChainId.MAINNET, '0xc00e94Cb662C3520282E6f57172140
 export const MKR = new Token(ChainId.MAINNET, '0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2', 18, 'MKR', 'Maker');
 export const AMPL = new Token(ChainId.MAINNET, '0xD46bA6D942050d489DBd938a2C909A5d5039A161', 9, 'AMPL', 'Ampleforth');
 export const WBTC = new Token(ChainId.MAINNET, '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599', 8, 'WBTC', 'Wrapped BTC');
+export const CLOUD = new Token(ChainId.GAURA, '0xECD51993a8142595fE22Af3AA966693a85063adb', 18, 'CLOUD', 'Cloud');
 
 // Block time here is slightly higher (~1s) than average in order to avoid ongoing proposals past the displayed time
 export const AVERAGE_BLOCK_TIME_IN_SECS = 13;
@@ -74,6 +75,7 @@ export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: To
 export const SUGGESTED_BASES: ChainTokenList = {
   ...WETH_ONLY,
   [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDC, USDT, WBTC],
+  [ChainId.GAURA]: [...WETH_ONLY[ChainId.GAURA], CLOUD],
 };
 
 // used to construct the list of all pairs we consider by default in the frontend

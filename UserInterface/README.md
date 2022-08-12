@@ -1,5 +1,3 @@
-# CoolSwap template
-
 ### Gaura Testnet (chainId : 33982)
 
 - Factory: 0x399aD46cC12DD3b11eC7cAc6b544AaC9e3b90FE3
