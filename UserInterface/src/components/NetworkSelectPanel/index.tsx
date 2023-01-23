@@ -2,16 +2,10 @@ import { Currency, Pair } from '@uniswap/sdk';
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
-import { useCurrencyBalance } from '../../state/wallet/hooks';
-import CurrencySearchModal from '../SearchModal/CurrencySearchModal';
-import CurrencyLogo from '../CurrencyLogo';
-import DoubleCurrencyLogo from '../DoubleLogo';
 import { RowBetween } from '../Row';
 import { TYPE } from '../../theme';
 import { Input as NumericalInput } from '../NumericalInput';
 import { ReactComponent as DropDown } from '../../assets/images/dropdown.svg';
-
-import { useActiveWeb3React } from '../../hooks';
 import { useTranslation } from 'react-i18next';
 import useTheme from '../../hooks/useTheme';
 import NetworkSelectModel from 'components/SearchModal/NetworkSelectModel';
@@ -91,30 +85,10 @@ const StyledTokenName = styled.span<{ active?: boolean }>`
   font-size:  ${({ active }) => (active ? '20px' : '16px')};
 `;
 
-const StyledBalanceMax = styled.button`
-  padding: 0.5rem;
-  background-color: ${({ theme }) => theme.bg3};
-  border: 1px solid ${({ theme }) => theme.bg3};
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-  transition: 0.2s;
-
-  font-weight: 500;
-  cursor: pointer;
-  margin-right: 0.5rem;
-  color: ${({ theme }) => theme.primaryText1};
-
-  :hover {
-    background-color: ${({ theme }) => theme.primary3};
-  }
-  :focus {
-    outline: none;
-  }
-
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    margin-right: 0.5rem;
-  `};
-`;
+interface NetworkData {
+  chainId: number;
+  networkName: string;
+}
 
 interface CurrencyInputPanelProps {
   value: string;
@@ -123,7 +97,7 @@ interface CurrencyInputPanelProps {
   showMaxButton: boolean;
   label?: string;
   onCurrencySelect?: (currency: any) => void;
-  currency?: Currency | null;
+  network?: NetworkData | null;
   disableCurrencySelect?: boolean;
   hideBalance?: boolean;
   pair?: Pair | null;
@@ -135,14 +109,14 @@ interface CurrencyInputPanelProps {
   isNetworkModel?: boolean;
 }
 
-export default function CurrencyInputPanel({
+export default function NetworkSelectPanel({
   value,
   onUserInput,
   onMax,
   showMaxButton,
   label = 'Input',
   onCurrencySelect,
-  currency,
+  network,
   disableCurrencySelect = false,
   hideBalance = false,
   pair = null, // used for double token logo
@@ -156,8 +130,6 @@ export default function CurrencyInputPanel({
   const { t } = useTranslation();
 
   const [modalOpen, setModalOpen] = useState(false);
-  const { account } = useActiveWeb3React();
-  const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined);
   const theme = useTheme();
 
   const handleDismissSearch = useCallback(() => {
@@ -173,19 +145,6 @@ export default function CurrencyInputPanel({
               <TYPE.body color={theme.text2} fontWeight={500} fontSize={14}>
                 {label}
               </TYPE.body>
-              {account && (
-                <TYPE.body
-                  onClick={onMax}
-                  color={theme.text2}
-                  fontWeight={500}
-                  fontSize={14}
-                  style={{ display: 'inline', cursor: 'pointer' }}
-                >
-                  {!hideBalance && !!currency && selectedCurrencyBalance
-                    ? (customBalanceText ?? 'Balance: ') + selectedCurrencyBalance?.toSignificant(6)
-                    : ' -'}
-                </TYPE.body>
-              )}
             </RowBetween>
           </LabelRow>
         )}
@@ -199,9 +158,6 @@ export default function CurrencyInputPanel({
                   onUserInput(val);
                 }}
               />
-              {account && currency && showMaxButton && label !== 'To' && (
-                <StyledBalanceMax onClick={onMax}>MAX</StyledBalanceMax>
-              )}
             </>
           )}
           <CurrencySelect
@@ -213,46 +169,20 @@ export default function CurrencyInputPanel({
             }}
           >
             <Aligner>
-              {pair ? (
-                <DoubleCurrencyLogo currency0={pair.token0} currency1={pair.token1} size={24} margin={true} />
-              ) : currency ? (
-                <CurrencyLogo currency={currency} size={'24px'} />
-              ) : null}
-              {pair ? (
-                <StyledTokenName className="pair-name-container">
-                  {pair?.token0.symbol}:{pair?.token1.symbol}
-                </StyledTokenName>
-              ) : (
-                <StyledTokenName className="token-symbol-container" active={Boolean(currency && currency.symbol)}>
-                  {(currency && currency.symbol && currency.symbol.length > 20
-                    ? currency.symbol.slice(0, 4) +
-                      '...' +
-                      currency.symbol.slice(currency.symbol.length - 5, currency.symbol.length)
-                    : currency?.symbol) || t('Token')}
-                </StyledTokenName>
-              )}
+              <StyledTokenName className="token-symbol-container">
+                {network && network.chainId ? network.networkName : t('Token')}
+              </StyledTokenName>
               {!disableCurrencySelect && <StyledDropDown />}
             </Aligner>
           </CurrencySelect>
         </InputRow>
       </Container>
-      {!isNetworkModel && !disableCurrencySelect && onCurrencySelect && (
-        <CurrencySearchModal
-          isOpen={modalOpen}
-          onDismiss={handleDismissSearch}
-          onCurrencySelect={onCurrencySelect}
-          selectedCurrency={currency}
-          otherSelectedCurrency={otherCurrency}
-          showCommonBases={showCommonBases}
-        />
-      )}
 
       {isNetworkModel && !disableCurrencySelect && onCurrencySelect && (
         <NetworkSelectModel
           isOpen={modalOpen}
           onDismiss={handleDismissSearch}
           onCurrencySelect={onCurrencySelect}
-          selectedCurrency={currency}
           otherSelectedCurrency={otherCurrency}
           showCommonBases={showCommonBases}
         />

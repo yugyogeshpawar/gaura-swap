@@ -23,6 +23,7 @@ export function useSwapState(): AppState['swap'] {
 
 export function useSwapActionHandlers(): {
   onCurrencySelection: (field: Field, currency: Currency) => void;
+  // onNetworkSelection: (field: Field, currency: Currency) => void;
   onSwitchTokens: () => void;
   onUserInput: (field: Field, typedValue: string) => void;
   onChangeRecipient: (recipient: string | null) => void;
@@ -39,6 +40,18 @@ export function useSwapActionHandlers(): {
     },
     [dispatch]
   );
+
+  // const onNetworkSelection = useCallback(
+  //   (field: Field, currency: Currency) => {
+  //     dispatch(
+  //       selectCurrency({
+  //         field,
+  //         currencyId: currency instanceof Token ? currency.address : currency === ETHER ? 'ETH' : '',
+  //       })
+  //     );
+  //   },
+  //   [dispatch]
+  // );
 
   const onSwitchTokens = useCallback(() => {
     dispatch(switchCurrencies());
@@ -63,6 +76,7 @@ export function useSwapActionHandlers(): {
     onCurrencySelection,
     onUserInput,
     onChangeRecipient,
+    // onNetworkSelection,
   };
 }
 
