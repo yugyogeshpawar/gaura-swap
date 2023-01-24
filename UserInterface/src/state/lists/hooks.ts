@@ -48,6 +48,7 @@ const EMPTY_LIST: TokenAddressMap = {
   [ChainId.GÖRLI]: {},
   [ChainId.MAINNET]: {},
   [ChainId.GAURA]: {},
+  [ChainId.POLYGON]: {},
 };
 
 const listCache: WeakMap<TokenList, TokenAddressMap> | null =
@@ -104,6 +105,7 @@ function combineMaps(map1: TokenAddressMap, map2: TokenAddressMap): TokenAddress
     5: { ...map1[5], ...map2[5] },
     42: { ...map1[42], ...map2[42] },
     61115: { ...map1[61115], ...map2[61115] },
+    137: { ...map1[137], ...map2[137] },
   };
 }
 

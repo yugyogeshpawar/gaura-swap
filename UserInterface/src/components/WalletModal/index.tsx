@@ -280,6 +280,7 @@ export default function WalletModal({
   }
 
   function getModalContent() {
+    // Error network code
     if (error) {
       return (
         <UpperSection>

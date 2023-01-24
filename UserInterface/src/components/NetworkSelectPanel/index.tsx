@@ -170,7 +170,7 @@ export default function NetworkSelectPanel({
           >
             <Aligner>
               <StyledTokenName className="token-symbol-container">
-                {network && network.chainId ? network.networkName : t('Token')}
+                {network && network.chainId ? network.networkName : t('Network')}
               </StyledTokenName>
               {!disableCurrencySelect && <StyledDropDown />}
             </Aligner>

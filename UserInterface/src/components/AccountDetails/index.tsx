@@ -230,7 +230,7 @@ export default function AccountDetails({
   ENSName,
   openOptions,
 }: AccountDetailsProps) {
-  const { chainId, account, connector } = useActiveWeb3React();
+  const { chainId, account, connector, deactivate } = useActiveWeb3React();
   const theme = useContext(ThemeContext);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -318,6 +318,14 @@ export default function AccountDetails({
                       Disconnect
                     </WalletAction>
                   )}
+                  <WalletAction
+                    style={{ fontSize: '.825rem', fontWeight: 400, marginRight: '8px' }}
+                    onClick={() => {
+                      deactivate()
+                    }}
+                  >
+                    Disconnect
+                  </WalletAction>
                   <WalletAction
                     style={{ fontSize: '.825rem', fontWeight: 400 }}
                     onClick={() => {

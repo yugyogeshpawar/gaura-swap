@@ -254,6 +254,19 @@ export default function Header() {
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? ''];
   const [darkMode, toggleDarkMode] = useDarkModeManager();
 
+  const nativeTokenName = () => {
+    switch (chainId) {
+      case 1:
+        return 'ETH';
+      case 61115:
+        return 'GAURA';
+      case 137:
+        return 'MATIC';
+      default:
+        return '';
+    }
+  };
+
   return (
     <HeaderFrame>
       <HeaderRow>
@@ -296,7 +309,7 @@ export default function Header() {
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
             {account && userEthBalance ? (
               <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
-                {userEthBalance?.toSignificant(4)} Gaura
+                {userEthBalance?.toSignificant(4)} {chainId && nativeTokenName()}
               </BalanceText>
             ) : null}
             <Web3Status />

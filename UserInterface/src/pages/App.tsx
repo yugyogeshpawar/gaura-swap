@@ -17,6 +17,7 @@ import PoolFinder from './PoolFinder';
 import RemoveLiquidity from './RemoveLiquidity';
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects';
 import Swap from './Swap';
+// import { OpenClaimAddressModalAndRedirectToSwap} from './Swap/redirects';
 import { OpenClaimAddressModalAndRedirectToSwap, RedirectPathToSwapOnly } from './Swap/redirects';
 import Bridge from './Bridge';
 
@@ -65,7 +66,7 @@ export default function App() {
               <Route exact strict path="/claim" component={OpenClaimAddressModalAndRedirectToSwap} />
               <Route exact strict path="/find" component={PoolFinder} />
               <Route exact strict path="/pool" component={Pool} />
-              <Route exact strict path="/bridge" component={Bridge} />
+              {/* <Route exact strict path="/bridge" component={Bridge} /> */}
               <Route exact strict path="/create" component={RedirectToAddLiquidity} />
               <Route exact path="/add" component={AddLiquidity} />
               <Route exact path="/add/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
@@ -75,6 +76,12 @@ export default function App() {
               <Route exact path="/create/:currencyIdA/:currencyIdB" component={RedirectDuplicateTokenIds} />
               <Route exact strict path="/remove/:tokens" component={RedirectOldRemoveLiquidityPathStructure} />
               <Route exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
+              {/* <Route component={RedirectPathToSwapOnly} /> */}
+            </Switch>
+          </Web3ReactManager>
+          <Web3ReactManager>
+            <Switch>
+              <Route exact strict path="/bridge" component={Bridge} />
               <Route component={RedirectPathToSwapOnly} />
             </Switch>
           </Web3ReactManager>

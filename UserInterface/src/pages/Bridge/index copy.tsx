@@ -1,7 +1,10 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
+import { Pair } from '@uniswap/sdk';
 import { SwapPoolTabs } from '../../components/NavigationTabs';
 import AppBody from '../AppBody';
+import FullPositionCard from '../../components/PositionCard';
+import { useTokenBalancesWithLoadingIndicator } from '../../state/wallet/hooks';
 import { TYPE, HideSmall, LinkStyledButton } from '../../theme';
 import AddressInput from '../../components/AddressInputPanel';
 import Card from '../../components/Card';
@@ -10,17 +13,22 @@ import { ButtonPrimary } from '../../components/Button';
 import { AutoColumn } from '../../components/Column';
 
 import { useActiveWeb3React } from '../../hooks';
-import { useExpertModeManager } from '../../state/user/hooks';
-import { ArrowWrapper, BottomGrouping } from '../../components/swap/styleds';
+import { usePairs } from '../../data/Reserves';
+import {
+  toV2LiquidityToken,
+  useExpertModeManager,
+  useTrackedTokenPairs,
+  useUserSlippageTolerance,
+} from '../../state/user/hooks';
+import { ArrowWrapper, BottomGrouping, Dots } from '../../components/swap/styleds';
 import { useWalletModalToggle } from 'state/application/hooks';
 import { useDerivedSwapInfo, useSwapState, useSwapActionHandlers } from '../../state/swap/hooks';
 import { Field } from '../../state/swap/actions';
 import useWrapCallback, { WrapType } from '../../hooks/useWrapCallback';
+import { ApprovalState, useApproveCallbackFromTrade } from '../../hooks/useApproveCallback';
 import { ArrowDown } from 'react-feather';
 import NetworkSelectPanel from 'components/NetworkSelectPanel';
-import { ethers } from 'ethers';
-import ABI from './abis/abi.json';
-// import { ethers } from 'ethers';
+
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
   width: 100%;
@@ -36,22 +44,24 @@ const TitleRow = styled(RowBetween)`
   `};
 `;
 
+const EmptyProposals = styled.div`
+  border: 1px solid ${({ theme }) => theme.text4};
+  padding: 16px 12px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 interface NetworkData {
   chainId: number;
   networkName: string;
 }
 
-const contractAddressObj = {
-  61115: '0x6f78cde40436D1e406CFC9e4F2ed788E0C43E929',
-  137: '0x1759B3AbD81B6c27bc1B1D0a6F5EF68f4151B523',
-  1: '0x1759B3AbD81B6c27bc1B1D0a6F5EF68f4151B523',
-  56: '0x1759B3AbD81B6c27bc1B1D0a6F5EF68f4151B523',
-};
-
 export default function Bridge() {
   const theme = useContext(ThemeContext);
   const { account, deactivate: deactivateNetwork } = useActiveWeb3React();
-  const [selectedNetwork, setSelectedNetwork] = useState<NetworkData | null>(null);
+  const [selectedNetwork, setSelectedNetwork] = useState<NetworkData|null>(null);
   const [walletAddress, setWalletAddress] = useState('');
   const [numberOfTokens, setNumberOfTokens] = useState('');
 
@@ -69,15 +79,53 @@ export default function Bridge() {
   const { v2Trade, parsedAmount } = useDerivedSwapInfo();
   const trade = showWrap ? undefined : v2Trade;
 
+  // get custom setting values for user
+  const [allowedSlippage] = useUserSlippageTolerance();
+
+  // check whether the user has approved the router on the input token
+  const [approval] = useApproveCallbackFromTrade(trade, allowedSlippage);
+
+  // check if user has gone through approval process, used to show two step buttons, reset on token change
+  const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false);
+
   // mark when a user has submitted an approval, reset onTokenSelection for input field
   useEffect(() => {
-    if (account) {
-      deactivateNetwork();
+    if(account) { deactivateNetwork()}
+    if (approval === ApprovalState.PENDING) {
+      setApprovalSubmitted(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [approval, approvalSubmitted]);
 
+  // fetch the user's balances of all tracked V2 LP tokens
+  const trackedTokenPairs = useTrackedTokenPairs();
+  const tokenPairsWithLiquidityTokens = useMemo(
+    () => trackedTokenPairs.map((tokens) => ({ liquidityToken: toV2LiquidityToken(tokens), tokens })),
+    [trackedTokenPairs]
+  );
+  const liquidityTokens = useMemo(
+    () => tokenPairsWithLiquidityTokens.map((tpwlt) => tpwlt.liquidityToken),
+    [tokenPairsWithLiquidityTokens]
+  );
+  const [v2PairsBalances, fetchingV2PairBalances] = useTokenBalancesWithLoadingIndicator(
+    account ?? undefined,
+    liquidityTokens
+  );
   const { recipient } = useSwapState();
+
+  const liquidityTokensWithBalances = useMemo(
+    () =>
+      tokenPairsWithLiquidityTokens.filter(({ liquidityToken }) =>
+        v2PairsBalances[liquidityToken.address]?.greaterThan('0')
+      ),
+    [tokenPairsWithLiquidityTokens, v2PairsBalances]
+  );
+
+  const v2Pairs = usePairs(liquidityTokensWithBalances.map(({ tokens }) => tokens));
+  const v2IsLoading =
+    fetchingV2PairBalances ||
+    v2Pairs?.length < liquidityTokensWithBalances.length ||
+    v2Pairs?.some((V2Pair) => !V2Pair);
+  const allV2PairsWithLiquidity = v2Pairs.map(([, pair]) => pair).filter((v2Pair): v2Pair is Pair => Boolean(v2Pair));
 
   const { independentField } = useSwapState();
 
@@ -115,25 +163,20 @@ export default function Bridge() {
     },
     [onCurrencySelection]
   );
-
+  
   const handleAddressChange = (address: string) => {
     setWalletAddress(address);
   };
 
-  const handleSubmit = async () => {
-    if (selectedNetwork && window) {
-      try {
-        let contractAddress = contractAddressObj[selectedNetwork.chainId as keyof typeof contractAddressObj];
-        const provider = new ethers.providers.Web3Provider(window.ethereum as any);
-        const signer = provider.getSigner();
-        const contract = new ethers.Contract(contractAddress, ABI, signer);
-        const result = await contract.functions.burn(walletAddress, numberOfTokens, selectedNetwork?.chainId, {
-          gasLimit: 5000000,
-        });
-        console.log(result);
-      } catch (error) {
-        console.log(error);
-      }
+  const handleSubmit = () => {
+    if(selectedNetwork){
+      const reqObj = {
+        walletAddress,
+        chainId: selectedNetwork.chainId,
+        networkName: selectedNetwork.networkName,
+        token: numberOfTokens,
+      };
+      console.log(reqObj);
     }
   };
 
@@ -152,9 +195,21 @@ export default function Bridge() {
             {!account ? (
               <Card padding="40px">
                 <TYPE.body color={theme.text3} textAlign="center">
-                  Connect to a wallet to for bridge.
+                  Connect to a wallet to view your liquidity.
                 </TYPE.body>
               </Card>
+            ) : v2IsLoading ? (
+              <EmptyProposals>
+                <TYPE.body color={theme.text3} textAlign="center">
+                  <Dots>Loading</Dots>
+                </TYPE.body>
+              </EmptyProposals>
+            ) : allV2PairsWithLiquidity?.length > 0 ? (
+              <>
+                {allV2PairsWithLiquidity.map((v2Pair) => (
+                  <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
+                ))}
+              </>
             ) : (
               <AutoColumn gap={'md'}>
                 <AddressInput
@@ -169,6 +224,7 @@ export default function Bridge() {
                       <ArrowDown
                         size="16"
                         onClick={() => {
+                          setApprovalSubmitted(false);
                           onSwitchTokens();
                         }}
                         color={currencies[Field.INPUT] && currencies[Field.OUTPUT] ? theme.primary1 : theme.text2}
