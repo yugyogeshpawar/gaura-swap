@@ -3,7 +3,6 @@ import styled, { ThemeContext } from 'styled-components';
 import { SwapPoolTabs } from '../../components/NavigationTabs';
 import AppBody from '../AppBody';
 import { TYPE, HideSmall, LinkStyledButton } from '../../theme';
-import AddressInput from '../../components/AddressInputPanel';
 import Card from '../../components/Card';
 import { AutoRow, RowBetween } from '../../components/Row';
 import { ButtonPrimary } from '../../components/Button';
@@ -21,6 +20,7 @@ import NetworkSelectPanel from 'components/NetworkSelectPanel';
 import { ethers } from 'ethers';
 import ABI from './abis/abi.json';
 import Header from '../../components/Header';
+import AddressInputPanel from 'components/AddressInputPanel/index2';
 
 const HeaderWrapper = styled.div`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -48,6 +48,12 @@ interface NetworkData {
   networkName: string;
 }
 
+interface TokenData {
+  chainId: number;
+  contractAddress: string;
+  networkName: string;
+}
+
 const contractAddressObj = {
   61115: '0x6f78cde40436D1e406CFC9e4F2ed788E0C43E929',
   137: '0x1759B3AbD81B6c27bc1B1D0a6F5EF68f4151B523',
@@ -59,6 +65,7 @@ export default function Bridge() {
   const theme = useContext(ThemeContext);
   const { account, deactivate: deactivateNetwork } = useActiveWeb3React();
   const [selectedNetwork, setSelectedNetwork] = useState<NetworkData | null>(null);
+  const [selectedToken, setSelectedToken] = useState<TokenData | null>(null);
   const [walletAddress, setWalletAddress] = useState('');
   const [numberOfTokens, setNumberOfTokens] = useState('');
 
@@ -123,11 +130,21 @@ export default function Bridge() {
     [onCurrencySelection]
   );
 
+  const handleTokenSelect = useCallback(
+    (outputToken) => {
+      setSelectedToken(outputToken);
+      onCurrencySelection(Field.OUTPUT, outputToken);
+    },
+    [onCurrencySelection]
+  );
+
   const handleAddressChange = (address: string) => {
     setWalletAddress(address);
   };
 
   const handleSubmit = async () => {
+    console.log({ walletAddress: walletAddress, selectedToken, selectedNetwork });
+
     if (selectedNetwork && window) {
       try {
         let contractAddress = contractAddressObj[selectedNetwork.chainId as keyof typeof contractAddressObj];
@@ -168,11 +185,16 @@ export default function Bridge() {
                 </Card>
               ) : (
                 <AutoColumn gap={'md'}>
-                  <AddressInput
+                  <AddressInputPanel
                     value={walletAddress}
                     onChange={(val: any) => {
                       handleAddressChange(val);
                     }}
+                    id="token-select"
+                    disableCurrencySelect={false}
+                    onTokenSelect={handleTokenSelect}
+                    isTokenModel={true}
+                    token={selectedToken}
                   />
                   <AutoColumn justify="space-between">
                     <AutoRow justify={isExpertMode ? 'space-between' : 'center'} style={{ padding: '0 1rem' }}>
@@ -195,7 +217,7 @@ export default function Bridge() {
                   <NetworkSelectPanel
                     value={formattedAmounts[Field.OUTPUT]}
                     onUserInput={handleTypeOutput}
-                    label={'To'}
+                    label={'Amount'}
                     showMaxButton={false}
                     onCurrencySelect={handleOutputSelect}
                     otherCurrency={currencies[Field.INPUT]}
