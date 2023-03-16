@@ -61,7 +61,7 @@ export default function App() {
           <Web3ReactManager>
             <Switch>
               <Route exact strict path="/bridge" component={Bridge} />
-              <ExternalRedirect exact={true} path={'/swap'} link={'https://app.cloudswap.trade/#/swap'} />
+              <ExternalRedirect exact={true} path={'/swap'} link={'https://app.cloudswap.trade/#swap'} />
               <ExternalRedirect exact={true} path={'/pool'} link={'https://app.cloudswap.trade/#/pool'} />
               <Route component={RedirectPathToSwapOnly} />
             </Switch>

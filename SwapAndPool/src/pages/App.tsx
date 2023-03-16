@@ -38,7 +38,6 @@ const BodyWrapper = styled.div`
   z-index: 1;
 `;
 
-
 interface Props {
   exact?: boolean;
   link: string;
@@ -60,7 +59,6 @@ const ExternalRedirect: React.FC<Props> = (props: Props) => {
     />
   );
 };
-
 
 export default function App() {
   return (
@@ -85,7 +83,7 @@ export default function App() {
               <Route exact path="/create/:currencyIdA/:currencyIdB" component={RedirectDuplicateTokenIds} />
               <Route exact strict path="/remove/:tokens" component={RedirectOldRemoveLiquidityPathStructure} />
               <Route exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
-              <ExternalRedirect exact={true} path={'/bridge'} link={'https://bridge.cloudswap.trade'} />
+              <ExternalRedirect exact={true} path={'/bridge'} link={'https://swap.cloudswap.trade'} />
               <Route component={RedirectPathToSwapOnly} />
             </Switch>
           </Web3ReactManager>

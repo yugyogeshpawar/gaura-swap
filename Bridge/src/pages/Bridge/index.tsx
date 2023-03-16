@@ -143,18 +143,15 @@ export default function Bridge() {
   };
 
   const handleSubmit = async () => {
-    console.log({ walletAddress: walletAddress, selectedToken, selectedNetwork });
-
     if (selectedNetwork && window) {
       try {
         let contractAddress = contractAddressObj[selectedNetwork.chainId as keyof typeof contractAddressObj];
         const provider = new ethers.providers.Web3Provider(window.ethereum as any);
         const signer = provider.getSigner();
         const contract = new ethers.Contract(contractAddress, ABI, signer);
-        const result = await contract.functions.burn(walletAddress, numberOfTokens, selectedNetwork?.chainId, {
+        await contract.functions.burn(walletAddress, numberOfTokens, selectedNetwork?.chainId, {
           gasLimit: 5000000,
         });
-        console.log(result);
       } catch (error) {
         console.log(error);
       }
